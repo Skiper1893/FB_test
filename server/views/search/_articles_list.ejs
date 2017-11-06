@@ -1,0 +1,54 @@
+<% articles.forEach((article, index) => { %>
+  <div class="flex article-cell">
+    <% var articleId = 'article' + index; %>
+    <div
+      id="<%= articleId %>"
+      class="img-placeholder flex flex-align-center"
+      fetchmetadata="fetchArticleMetadata('<%= articleId %>', '<%= article.articleSourceUrl %>')">
+    </div>
+    <div class="width-full">
+      <h3>
+        <a href="<%= article.link %>" target="_blank"><%- article.title %></a>
+      </h3>
+      <div class="article-details flex flex-justify-space-between flex-mb-force-column">
+        <p><%= article.articleSource %></p>
+        <p><%= article.pubDate %></p>
+      </div>
+    </div>
+  </div>
+<% });%>
+
+<script type="text/javascript">
+  function fetchArticlesMetadata() {
+    for (var i = 0; i < <%= articles.length %>; i++) {
+      eval($('#article' + i).attr('fetchmetadata'));
+    }
+  }
+
+  function fetchArticleMetadata(articleId, articleUrl) {
+    superagent
+      .get('/articles/metadata')
+      .query({articleUrl: articleUrl})
+      .end(function(err, res) {
+        console.log(res);
+        if (res.statusCode == 200) {
+          updateArticle($('#' + articleId), res.body);
+        }
+      });
+  }
+
+  function updateArticle(article, metadata) {
+    appendImage(article, metadata.image);
+  }
+
+  function appendImage(article, imageUrl) {
+    var imageTag;
+
+    if (!imageUrl) {
+      imageTag = '<img src="../images/no-image.jpg" class="noimg-article" />';
+    } else {
+      imageTag = '<img src="' + imageUrl + '" class="img-article" />';
+    }
+    article.append(imageTag);
+  }
+</script>

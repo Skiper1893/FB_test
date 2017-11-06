@@ -1,0 +1,41 @@
+<%
+  var hasArticles = articles && articles.length > 0;
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link rel='stylesheet' href='../dist/min.style.css' />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.6.0/superagent.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+  <body>
+    <div class="background-articles">
+
+        <h1>Search Results</h1>
+        <% if (hasArticles) { -%>
+        <main class="articles-container">
+          <%- include ./_articles_list.ejs %>
+        </main>
+        <% } else { -%>
+          <%- include ./_empty_articles.ejs %>
+        <% } -%>
+
+    </div>
+
+    <script type="text/javascript">
+      window.onload = function() {
+        <% if (hasArticles) { %>
+          fetchArticlesMetadata();
+        <% } %>
+      };
+    </script>
+  </body>
+</html>

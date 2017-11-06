@@ -1,0 +1,23 @@
+<div class="container">
+
+      <form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        
+        <input type="text" class="form-control" required="" name="" placeholder="Username" [(ngModel)]="username" [ngModelOptions]="{standalone: true}">
+        
+        <input type="email" class="form-control confirm_input_down_up" placeholder="Email address" required="" autofocus="" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+        
+        <input type="password" class="form-control confirm_input_down" id="password-one" placeholder="Password" required="" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" >
+        
+        <input type="password" class="form-control" id="password-confirm" placeholder="Confirm password" required="">
+        
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Receive notification?
+        </label>
+
+        <button class="btn btn-lg btn-primary btn-block" (click)="signUp()">Sign up</button>
+
+        <button class="btn btn-lg btn-primary btn-block" routerLink="/login">Login</button>
+      </form>
+
+</div> <!-- /container -->

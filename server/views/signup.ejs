@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://use.fontawesome.com/e7eadc2fd7.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel='stylesheet' href='/dist/min.style.css' />
+  </head>
+  <body>
+    <div class="background-sign">
+
+      <div class="text-center">
+        <img src="/images/bee_color_no_bg.png" class="logo-img">
+      </div>
+
+      <% if (typeof flash !== 'undefined') { %>
+        <div class="text-center  margin-md"><%= flash %></div>
+      <% } %>
+      %>
+    
+      <div class="form-container">
+
+        <form action="<%= uris.SIGN_UP %>" method="post" class="flex flex-column flex-align-center">
+            <input class="input-field width-full" type="text" name="username" placeholder="Username">
+            <input class="input-field width-full" type="password" name="password" id="password-one" placeholder="Password" onfocusout='checkPassword();'>
+            <div id="password-error-message">Password must be at least 6 characters</div>
+            <input class="input-field width-full" type="password" name="password-two" id="password-confirm" placeholder="Confirm Password" onkeyup='checkPasswordMatch();'>
+            <input class="btn-submit btn-disabled" id="sign-up-btn" type="submit" value="Sign Up" disabled>
+        </form>
+
+      </div> <!-- form-container -->
+
+    </div> <!--background div-->
+
+    <script type="text/javascript">
+
+      function checkPassword () {
+        var password = document.getElementById('password-one').value;
+        var errorMessage = document.getElementById('password-error-message');
+        console.log('focus out');
+        if (password.length < 6) {
+          errorMessage.style.display = 'block'
+        } else {
+          errorMessage.style.display = 'none'
+        }
+        
+      }
+
+      function checkPasswordMatch () {
+        var password = document.getElementById('password-one').value;
+        var passwordConfirm = document.getElementById('password-confirm').value;
+
+        if (password === passwordConfirm) {
+          document.getElementById("sign-up-btn").disabled = false;
+          document.getElementById("sign-up-btn").classList.add('validated');
+        } else {
+          document.getElementById("sign-up-btn").disabled = true;
+          document.getElementById("sign-up-btn").classList.remove('validated');
+        }
+
+      }
+
+    </script> 
+  </body>
+</html>

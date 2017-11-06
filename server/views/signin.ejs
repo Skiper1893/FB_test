@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://use.fontawesome.com/e7eadc2fd7.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel='stylesheet' href='/dist/min.style.css' />
+  </head>
+  <body>
+    <div class="background-sign">
+
+      <div class="text-center">
+        <img src="/images/bee_color_no_bg.png" class="logo-img">
+      </div>
+
+      <% if (flash != null) { %>
+        <div class="text-center  margin-md"><%= flash %></div>
+      <% } %>
+      %>
+
+      <div class="form-container">
+
+        <form action="<%= uris.SIGN_IN %>" method="post" class="flex flex-column flex-align-center">
+            <input class="input-field width-full" type="text" name="username" placeholder="Username">
+            <input class="input-field width-full" type="password" name="password" placeholder="Password">
+            <input class="btn-submit validated" type="submit" value="Sign In">
+        </form>
+
+      </div> <!-- form-container -->
+
+
+        <div class="text-center margin-md text-white">
+          <span>Don't have an account? </span>
+          <a href="<%= uris.SIGN_UP %>">Sign Up</a>
+        </div>
+
+    </div> <!--background div--> 
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <script src="https://use.fontawesome.com/e7eadc2fd7.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel='stylesheet' href='/dist/min.style.css' />
+  </head>
+  <body>
+
+    <div class="background-index">
+      <i class="fa fa-long-arrow-left text-white margin-sm" aria-hidden="true"></i>
+      <main class="main text-white flex flex-column flex-align-center flex-justify-space-between">
+        <img src="/images/bee_color_no_bg.png" class="logo-img">
+        <section class="text-center">
+          <a href="<%= uris.SIGN_OUT %>">Sign Out</a>
+        </section>
+        <section class="text-center">
+          <h2 class="margin-sm">Hello, Rod</h2>
+          <h2 class="margin-sm">Region: Toronto</h2>
+        </section>
+        <section class="text-center width-full">
+          <%- include ./search/_form.ejs %>
+        </section>
+      </main>
+    </div>
+
+  </body>
+</html>
