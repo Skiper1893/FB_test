@@ -22,7 +22,7 @@ export class HttpService {
   }
 
   signIn(data) : Observable<any> {
-  	const ep = this.prepEndpoint('api/auth/signin')
+  	const ep = this.prepEndpoint('signin')
   	return this.http.post(ep, data)
   	.map((res:Response) => res.json())
   	.catch((error:any) => { return Observable.throw(error);
@@ -30,7 +30,7 @@ export class HttpService {
   }
 
   signUp(data) : Observable<any> {
-  	const ep = this.prepEndpoint('uris.SIGN_UP')
+  	const ep = this.prepEndpoint('signup')
   	return this.http.post(ep, data)
   	.map((res:Response) => res.json())
   	.catch((error:any) => { return Observable.throw(error);
@@ -38,12 +38,20 @@ export class HttpService {
   }
 
    signOut() : Observable<any> {
-  	const ep = this.prepEndpoint('uris.SIGN_OUT')
+  	const ep = this.prepEndpoint('signin')
   	return this.http.get(ep)
   	.map((res:Response) => res.json())
   	.catch((error:any) => { return Observable.throw(error);
   	})
   }
+
+  testReq() : Observable<any> {
+    const ep = this.prepEndpoint('help')
+    return this.http.get(ep)
+    .map((res:Response) => res.json())
+    .catch((error:any) => { return Observable.throw(error);
+    })
+   }
 
   prepEndpoint(ep) {
     return 'http://localhost:3000/' + ep;

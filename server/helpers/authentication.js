@@ -1,15 +1,8 @@
-const uris = require('./uris');
 const authenticationStrategy = require('./firebaseAuthentication');
 
-// function verifySignedIn(req, res, next) {
-//   authenticationStrategy.getSignedInUser().then(user => {
-//     if (user != null) {
-//       next();
-//     } else {
-//       res.redirect(uris.SIGN_IN);
-//     }
-//   });
-// }
+function getSignedInUser() {
+  return authenticationStrategy.getSignedInUser();
+}
 
 function signInWithUsernameAndPassword({username, password}) {
   return authenticationStrategy.signInWithUsernameAndPassword(
@@ -30,7 +23,7 @@ function signOut() {
 }
 
 module.exports = {
-  // verifySignedIn,
+  getSignedInUser,
   signInWithUsernameAndPassword,
   signupWithUsernameAndPassword,
   signOut,

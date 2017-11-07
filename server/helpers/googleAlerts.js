@@ -37,8 +37,8 @@ generateCookies().then(cookies => {
   });
 });
 
-const searchByInterest = (interest) => {
-  console.log(`Searching alerts by interest "${interest}"`);
+const createAlertByInterest = (interest) => {
+  console.log(`Creating alert by interest "${interest}"`);
 
   return new Promise((resolve, reject) => {
     createAlert(interest, (error, alert) => {
@@ -58,12 +58,9 @@ const createAlert = (interest, callback) => {
       howMany: HOW_MANY.BEST,
       deliverTo: DELIVER_TO.RSS,
       deliverToData: '',
-      
     };
 
-    googleAlertsApi.create(alertToCreate, (error, alert) => {
-      callback(error, alert);
-    });
+    googleAlertsApi.create(alertToCreate, callback);
   });
 };
 
@@ -105,8 +102,6 @@ const deleteAllAlerts = () => {
   });
 };
 
-//--- Get alerts from Google Alerts API 
-
 const getAlerts = () => {
   try {
     return googleAlertsApi.getAlerts();
@@ -127,7 +122,7 @@ const deleteAlerts = (alerts) => {
 };
 
 module.exports = {
-  searchByInterest,
+  createAlertByInterest,
   downloadArticles,
   deleteAllAlerts,
 };

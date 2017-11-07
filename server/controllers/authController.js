@@ -1,56 +1,55 @@
+const express = require('express');
 const authentication = require('../helpers/authentication');
-const uris = require('../helpers/uris');
-let redirect = '';
 
-function signInGet(req, res) {
-  redirect = 'uris.SIGN_IN';
-  res.send(redirect)
-}
+const router = express.Router();
+
+//
+let redirectURL = '';
+let success = false;
+
+router.route('/signin')
+  // .get(signInGet)
+  .post(signInPost);
+
+router.route('/signup')
+  // .get(signUpGet)
+  .post(signUpPost);
+
+router.get('/signout', signOut);
+
+// function signInGet(req, res) {
+//   render = 'signin';
+//   res.json(render);
+// }
 
 function signInPost(req, res) {
-  authentication.signInWithUsernameAndPassword(req.body.user)
-    .then(() => console.log('Ok'))
-    .catch((errorMessage) => { 
-      console.log('no ok');
-    });
+  console.log(req.body);
+  authentication.signInWithUsernameAndPassword(req.body)
+    .then(() => console.log('work'))
+    .catch((errorMessage) => {
+      flash: errorMessage
+    }
+    );
 }
 
-function signOut(req, res) {
-  authentication.singOut();
-  redirect = 'uris.SIGN_IN';
-  res.send(redirect);
-}
-
-function signUpGet(req, res) {
-  redirect = 'uris.SIGN_UP';
-  res.send(redirect)
-}
+// function signUpGet(req, res) {
+//   res.render('signup');
+// }
 
 function signUpPost(req, res) {
-  authentication.signupWithUsernameAndPassword(req.body.user)
-    .then(() => {
-    redirect = 'uris.ROOT';
-    res.send(redirect) 
+  
+  authentication.signupWithUsernameAndPassword(req.body)
+    .then(() => {      
+      console.log('work');
     })
     .catch(error => {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      console.log(`Error: ${error.code}`);
-      console.log(`Error: ${error.message}`);
+      res.render('signup', {flash: error});
     });
 }
 
 function signOut(req, res) {
   authentication.signOut();
-  redirect = 'uris.SIGN_IN';
-  res.send(redirect);
+  res.redirect('/signin');
 }
 
-module.exports = {
-  signInGet,
-  signInPost,
-  signUpGet,
-  signUpPost,
-  signOut,
-};
-00101000
+module.exports = router;

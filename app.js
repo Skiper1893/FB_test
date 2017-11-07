@@ -4,66 +4,83 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-const controllers = require('./server/controllers')
-
-const router = express.Router();
-
-// const uris = require('./server/helpers/uris');
-const index = require('./server/routes/index');
+const firebase = require('firebase');
+// const index = require('./server/routes');
+const authentication = require('./server/helpers/authentication');
 
 const app = express();
+const port = 3000;
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.set('view engine', 'html');
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(
+    express.static(path.join(__dirname, 'dist'), {
+        etag: false
+    })
+);
 
-// middleware that exposes some helpers to the views
-// app.use(function(req, res, next) {
-//   res.locals.uris = uris;
-//   res.locals.flash = null;
-//   next();
-// });
+// app.use('/api', index);
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist/index.html'));
-// });
 
-// catch 404 and forward to error handler
 
-router.post('/auth/signin', () => {
-  console.log('tvoya mamka')
+function signInPost(req, res) {
+  console.log(req.body);
+  firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+}
+
+function signUpPost(req, res) {
+	  console.log(req.body.email);
+	  console.log(req.body.password);
+
+  authentication.signupWithUsernameAndPassword('evg-1993@yandex.ru', '123456')
+    .then(() => {      
+      console.log('work');
+    })
+    .catch(error => {
+      res.render('signup', {flash: error});
+    });
+}
+
+function signOut(req, res) {
+  authentication.signOut();
+  res.redirect('/signin');
+}
+
+app.post('/signup', (async (req, res) => {
+
+	console.log('try to create user');
+
+  await firebase.auth().createUserWithEmailAndPassword("nodeuser@firebaseui.com", "firebase")
+    .then(user => console.log(user))
+    .catch(error => console.error(error))
+}));
+
+
+app.post('/signin', (req, res) => {
+
+  console.log(req.body);
+  firebase.auth().signInWithEmailAndPassword("nodeuser@firebaseui.com", "firebase").then(user => console.log(user)).catch(function(error) {
+
+  	var errorCode = error.code;
+  	var errorMessage = error.message;
+  // ...
+	});
 });
 
-// app.use(function(req, res, next) {
-//   const err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(port, () => {
+  console.log(`Server listen on ${port} port`)
+});
 
 
-// error handler
-// app.use(function(err, req, res, next) {
-
-//   // set locals, only providing error in development
-  
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-
-
-
-module.exports = app;

@@ -1,27 +1,15 @@
 const express = require('express');
-
-const auth = require('../helpers/authentication');
-const uris = require('../helpers/uris');
 const controllers = require('../controllers');
+const authMiddleware = require('../middlewares/authentication');
 
 const router = express.Router();
 
+// router.get('/', authMiddleware.verifySignedIn, (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist/index.html'));
+// });
 
-/* Signin */
-
-router.post('/auth/signin', controllers.auth.signInPost);
-/* Signup */
-
-router.post('/auth/signup', controllers.auth.signUpPost);
-/* Signout */
-router.get('/auth/out', controllers.auth.signOut);
-/* Search */
-router.get(
-  '/search',
-  // auth.verifySignedIn,
-  controllers.search.contentByInterest
-);
-/* Articles */
-router.get(uris.ARTICLE_METADATA, controllers.articlesController.metadata);
+router.use(controllers.authController);
+router.use(controllers.searchController);
+router.use('/articles', controllers.articlesController);
 
 module.exports = router;

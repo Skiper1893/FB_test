@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "node ./server/bin/www",
+    "server": "node app.js",
     "start": "ng build -op dist -w && npm run server"
   },
   "private": true,
@@ -36,6 +36,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
+    "html": "^1.0.0",
     "install": "^0.10.1",
     "metascraper": "^1.0.7",
     "morgan": "~1.8.1",

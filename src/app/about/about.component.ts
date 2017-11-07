@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { HttpService } from './../service/http.service';
 
 @Component({
   selector: 'app-about',
@@ -7,9 +8,18 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http : HttpService) { }
+
+ Test() {
+  	return this.http.testReq().subscribe(data => {
+   		let result = data;
+   		console.log(result);
+  });
+ }
 
   ngOnInit() {
   }
+
+
 
 }

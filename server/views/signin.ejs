@@ -22,7 +22,7 @@
 
       <div class="form-container">
 
-        <form action="<%= uris.SIGN_IN %>" method="post" class="flex flex-column flex-align-center">
+        <form action="/signin" method="post" class="flex flex-column flex-align-center">
             <input class="input-field width-full" type="text" name="username" placeholder="Username">
             <input class="input-field width-full" type="password" name="password" placeholder="Password">
             <input class="btn-submit validated" type="submit" value="Sign In">
@@ -33,9 +33,9 @@
 
         <div class="text-center margin-md text-white">
           <span>Don't have an account? </span>
-          <a href="<%= uris.SIGN_UP %>">Sign Up</a>
+          <a href="/signup">Sign Up</a>
         </div>
 
-    </div> <!--background div--> 
+    </div> <!--background div-->
   </body>
 </html>

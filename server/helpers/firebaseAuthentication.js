@@ -1,5 +1,7 @@
 const firebase = require('firebase');
 
+let success = false;
+
 const config = {
   apiKey: 'AIzaSyCYaKEb7My9ToX9xcS59x4qRkKOBhGEyV0',
   authDomain: 'nectar-5d0bf.firebaseapp.com',
@@ -42,7 +44,11 @@ function getSignedInUser() {
 function signInWithEmailAndPassword(email, password) {
   return new Promise((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(resolve)
+      .then( resolve => { 
+        
+        success = true;
+        console.log("REQUEST_signin");
+      })
       .catch(error => reject(error.message));
   });
 }
@@ -50,11 +56,12 @@ function signInWithEmailAndPassword(email, password) {
 function signupWithEmailAndPassword(email, password) {
   return new Promise((resolve, reject) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(resolve)
+      .then(data => {return data})
       .catch(error => reject(error.message));
   });
 }
 
 function signOut() {
   firebase.auth().signOut();
+  success = false;
 }
