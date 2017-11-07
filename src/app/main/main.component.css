@@ -94,3 +94,9 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+#search_input_div {
+  float: left !important;
+}
+.search_input {
+  margin-top: 15%;
+}

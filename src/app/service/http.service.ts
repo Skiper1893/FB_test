@@ -53,6 +53,15 @@ export class HttpService {
     })
    }
 
+   search(data) : Observable<any> {
+    
+    const ep = this.prepEndpoint('search')
+    return this.http.post(ep, {interest : data})
+    .map((res:Response) =>res.json())
+    .catch((error:any) => { return Observable.throw(error);
+    })
+   }
+
   prepEndpoint(ep) {
     return 'http://localhost:3000/' + ep;
   }

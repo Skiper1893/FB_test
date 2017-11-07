@@ -7,10 +7,13 @@ const bodyParser = require('body-parser');
 const firebase = require('firebase');
 // const index = require('./server/routes');
 const authentication = require('./server/helpers/authentication');
+const googleAlerts = require('./server/helpers/googleAlerts');
+
 
 const app = express();
 const port = 3000;
 
+const router = express.Router();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,60 +25,79 @@ app.use(
     })
 );
 
-// app.use('/api', index);
 
-
-
-function signInPost(req, res) {
-  console.log(req.body);
-  firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
-}
-
-function signUpPost(req, res) {
-	  console.log(req.body.email);
-	  console.log(req.body.password);
-
-  authentication.signupWithUsernameAndPassword('evg-1993@yandex.ru', '123456')
-    .then(() => {      
-      console.log('work');
-    })
-    .catch(error => {
-      res.render('signup', {flash: error});
-    });
-}
-
-function signOut(req, res) {
-  authentication.signOut();
-  res.redirect('/signin');
-}
-
-app.post('/signup', (async (req, res) => {
-
-	console.log('try to create user');
-
-  await firebase.auth().createUserWithEmailAndPassword("nodeuser@firebaseui.com", "firebase")
-    .then(user => console.log(user))
-    .catch(error => console.error(error))
+app.post('/search', (async (req, res) => {
+  let interest = req.body.interest;
+  const alert = await googleAlerts.createAlertByInterest(interest);
+  const articles = await googleAlerts.downloadArticles(alert);//.then(result => { return result});
+  googleAlerts.deleteAllAlerts();
+  console.log(articles);
+  res.send(articles);
 }));
 
 
+app.post('/signup',(req, res) => {
+
+  let email = req.body.email;
+	let password = req.body.password;
+
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(user => console.log(`User : ${user}`))
+    .catch(error => {
+      console.log(`Error : ${error}`);
+      return error;
+  })
+});
+
 app.post('/signin', (req, res) => {
 
-  console.log(req.body);
-  firebase.auth().signInWithEmailAndPassword("nodeuser@firebaseui.com", "firebase").then(user => console.log(user)).catch(function(error) {
+  let email = req.body.email;
+  let password = req.body.password;
+
+  firebase.auth().signInWithEmailAndPassword(email, password).then(user => console.log(user)).catch(function(error) {
 
   	var errorCode = error.code;
   	var errorMessage = error.message;
-  // ...
+
 	});
 });
 
-app.get('*', (req, res) => {
+
+app.get('/check', (req, res) => {
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged(function(user) {
+       console.log(user);
+      if (user) {
+        // User is signed in.
+        // const displayName = user.displayName;
+        // const email = user.email;
+        // const emailVerified = user.emailVerified;
+        // const photoURL = user.photoURL;
+        // const isAnonymous = user.isAnonymous;
+        // const uid = user.uid;
+        // const providerData = user.providerData;
+        console.log(user);
+        // resolve(user);
+      } else {
+        resolve(null);
+      }
+    });
+  });
+});
+
+// {
+// firebase.auth().currentUser.getIdToken(true).then( idToken => {
+  
+//   console.log('Есть токен');
+//   console.log(idToken);
+
+//   }).catch(function(error) {
+//   console.log(error);
+//   });
+// });
+
+
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

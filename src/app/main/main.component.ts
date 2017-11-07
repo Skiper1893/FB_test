@@ -8,9 +8,19 @@ import { HttpService } from './../service/http.service';
 })
 export class MainComponent implements OnInit {
 
+	interest : string
+
   constructor(private http : HttpService) { }
 
+Search() {
+	console.log(this.interest);
+  	return this.http.search(this.interest).subscribe(data => {
+   		let result = data;
 
+   		console.log(data);
+
+  });
+ }
 
   ngOnInit() {}
 

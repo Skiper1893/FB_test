@@ -17,7 +17,8 @@ const appRoutes: Routes = [
     { path: '', component: AboutComponent},
     { path: 'search', component: MainComponent},
     { path: 'login', component: SigninComponent},
-    { path: 'registration', component: SignupComponent}
+    { path: 'registration', component: SignupComponent},
+    { path: '**', component: AboutComponent}
 ];
 
 @NgModule({
